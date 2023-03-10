@@ -7,15 +7,17 @@ const products = await response.json();
 ---
 
 <Layout title="Menu">
-  <div class="mt-8 grid grid-flow-dense grid-cols-3 auto-cols-max">
-    {
-      products.map((product) => (
-        <ProductCard
-          name={product.name}
-          price={product.price}
-          image={product.image}
-        />
-      ))
-    }
+  <div class="container my-12 mx-auto px-4 md:px12">
+    <div class="flex flex-wrap -mx-1 lg:-mx-4">
+      {
+        products.map((product) => (
+          <ProductCard
+            name={product.name}
+            price={product.price}
+            image={product.image}
+          />
+        ))
+      }
+    </div>
   </div>
 </Layout>
