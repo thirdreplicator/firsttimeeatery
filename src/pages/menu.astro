@@ -7,11 +7,13 @@ import ProductLoader from "../components/ProductLoader.astro";
 
 const response = await fetch("http://localhost:4000/products");
 const products = await response.json();
+import CategoryNavToggler from "../components/CategoryNavToggler.astro";
 ---
 
-<Layout title="Menu">
+<Layout title="FirstTime Eatery Menu: Burgers, Boba Milk Tea, Silog">
   <div class="container my-12 mx-auto px-4 md:px12">
     <CategoryLoader />
     <ProductLoader />
+    <CategoryNavToggler />
   </div>
 </Layout>

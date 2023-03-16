@@ -2,39 +2,40 @@
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
 import Carousel from "../components/Carousel.astro";
+import OrderNowButton from "../components/OrderNowButton.astro";
+import FindUsOnline from "../components/FindUsOnline.astro";
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="FirstTime Eatery, Dumaguete City, Philippines">
   <main class="text-center">
     <h1 class="text-center">
       <img src="/images/first_time_logo.webp" />
-      <span class="text-gradient">FirstTime Eatery</span>
+      <h1 class="text-gradient">FirstTime Eatery</h1>
     </h1>
-    <h2>
-      We serve burgers, boba milk tea, and silog, located on E.J. Blanco in
-      Dumaguete City next right to Metro Dumaguete College.
-    </h2>
     <Carousel />
-    <div class="map">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3937.156396107098!2d123.2893467506718!3d9.319407086905338!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33ab6f3eeecd949b%3A0x2a5d95bb1ba8fe1e!2sFirstTime%20Eatery!5e0!3m2!1sen!2sph!4v1678427101208!5m2!1sen!2sph"
-        width="600"
-        height="450"
-        style="border:0;"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-    <a href="/menu">
-      <button
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-      >
-        <strong>ORDER NOW</strong>
-      </button>
-    </a>
-    <p></p>
+    <h2 class="mt-8">
+      We're famous for our all-beef burgers and boba milk tea. Also try our
+      silogs and Filipino street food at college student prices. We're located
+      on E.J. Blanco in Daro, Dumaguete City, Philippines right next to Metro
+      Dumaguete College (MDC).
+    </h2>
+    <OrderNowButton />
+    <div class="map mt-8"></div>
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3937.156396107098!2d123.2893467506718!3d9.319407086905338!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33ab6f3eeecd949b%3A0x2a5d95bb1ba8fe1e!2sFirstTime%20Eatery!5e0!3m2!1sen!2sph!4v1678427101208!5m2!1sen!2sph"
+      width="600"
+      height="450"
+      style="border:0;"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <OrderNowButton />
+    <FindUsOnline />
   </main>
+
+  <p></p>
 </Layout>
+
 <style>
   .instructions {
     line-height: 1.6;

@@ -1,44 +1,75 @@
-<div id="default-carousel" class="relative" data-carousel="slide">
+---
+import { Image } from "@astrojs/image/components";
+let mode = import.meta.env.MODE;
+let IMAGE_DIR = "./";
+if (mode == "development") {
+  IMAGE_DIR = "/Users/david/Projects/firsttimefood/ft-public";
+} else {
+  IMAGE_DIR = "/var/www/ft-public";
+}
+---
+
+<div id="default-carousel" class="relative mt-8" data-carousel="static">
   <!-- Carousel wrapper -->
-  <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+  <div class="relative h-fit overflow-hidden rounded-lg md:h-96">
     <!-- Item 1 -->
     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-      <img
-        src="/images/carousel/carousel-1.svg"
-        class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-        alt="..."
+      <Image
+        src={import(IMAGE_DIR + "/images/carousel/carousel-1-drinks.webp")}
+        alt="Boba Milk Tea, Taro, Cookies-and-cream, Wintermelon, Matcha"
+        width="640"
+        format="webp"
       />
     </div>
     <!-- Item 2 -->
     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-      <img
-        src="/docs/images/carousel/carousel-2.svg"
-        class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-        alt="..."
+      <Image
+        src={import(IMAGE_DIR + "/images/carousel/carousel-2-laughing.webp")}
+        alt="5 girls laughing"
+        width="640"
+        format="webp"
       />
     </div>
     <!-- Item 3 -->
     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-      <img
-        src="/docs/images/carousel/carousel-3.svg"
+      <Image
+        src={import(IMAGE_DIR + "/images/carousel/carousel-3-silog.webp")}
+        alt="Tapsilong ₱60, Bangsilog ₱65"
+        width="640"
+        format="webp"
         class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-        alt="..."
       />
     </div>
     <!-- Item 4 -->
     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-      <img
-        src="/docs/images/carousel/carousel-4.svg"
+      <Image
+        src={import(
+          IMAGE_DIR + "/images/carousel/carousel-4-three-customers.webp"
+        )}
+        alt="Three customers smiling and enjoying an afternoon chat with boba milk tea."
+        width="640"
+        format="webp"
         class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-        alt="..."
       />
     </div>
     <!-- Item 5 -->
     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-      <img
-        src="/docs/images/carousel/carousel-5.svg"
+      <Image
+        src={import(IMAGE_DIR + "/images/carousel/carousel-5-street-food.webp")}
+        alt="Delicious Filipino street food like chicken inasal, banana queue, cheese sticks."
+        width="640"
+        format="webp"
         class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-        alt="..."
+      />
+    </div>
+    <!-- Item 6 -->
+    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+      <Image
+        src={import(IMAGE_DIR + "/images/carousel/carousel-6-emem.webp")}
+        alt="Smiling server for Filipino street food in front of a silog sign."
+        width="640"
+        format="webp"
+        class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
       />
     </div>
   </div>
@@ -125,3 +156,7 @@
     </span>
   </button>
 </div>
+
+<script>
+  console.log("production", import.meta.env.MODE);
+</script>
