@@ -9,66 +9,59 @@ if (mode == "development") {
 }
 ---
 
-<div id="default-carousel" class="relative mt-8" data-carousel="static">
+<div id="default-carousel" class="relative mt-8" data-carousel="slide">
   <!-- Carousel wrapper -->
   <div class="relative h-fit overflow-hidden rounded-lg md:h-96">
     <!-- Item 1 -->
     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-      <Image
-        src={import(IMAGE_DIR + "/images/carousel/carousel-1-drinks.webp")}
+      <img
+        src="/images/carousel/carousel-1-drinks.webp"
         alt="Boba Milk Tea, Taro, Cookies-and-cream, Wintermelon, Matcha"
         width="640"
-        format="webp"
+        class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
       />
     </div>
-    <!-- Item 2 -->
+
     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-      <Image
-        src={import(IMAGE_DIR + "/images/carousel/carousel-2-laughing.webp")}
+      <img
+        src="/images/carousel/carousel-2-laughing.webp"
         alt="5 girls laughing"
         width="640"
-        format="webp"
+        class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
       />
     </div>
-    <!-- Item 3 -->
     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-      <Image
-        src={import(IMAGE_DIR + "/images/carousel/carousel-3-silog.webp")}
+      <img
+        src="/images/carousel/carousel-3-silog.webp"
         alt="Tapsilong ₱60, Bangsilog ₱65"
         width="640"
-        format="webp"
         class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
       />
     </div>
-    <!-- Item 4 -->
+
     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-      <Image
-        src={import(
-          IMAGE_DIR + "/images/carousel/carousel-4-three-customers.webp"
-        )}
+      <img
+        src="/images/carousel/carousel-4-three-customers.webp"
         alt="Three customers smiling and enjoying an afternoon chat with boba milk tea."
         width="640"
-        format="webp"
         class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
       />
     </div>
-    <!-- Item 5 -->
+
     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-      <Image
-        src={import(IMAGE_DIR + "/images/carousel/carousel-5-street-food.webp")}
+      <img
+        src="/images/carousel/carousel-5-street-food.webp"
         alt="Delicious Filipino street food like chicken inasal, banana queue, cheese sticks."
         width="640"
-        format="webp"
         class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
       />
     </div>
-    <!-- Item 6 -->
+
     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-      <Image
-        src={import(IMAGE_DIR + "/images/carousel/carousel-6-emem.webp")}
+      <img
+        src="/images/carousel/carousel-6-emem.webp"
         alt="Smiling server for Filipino street food in front of a silog sign."
         width="640"
-        format="webp"
         class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
       />
     </div>
