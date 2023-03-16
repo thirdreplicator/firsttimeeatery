@@ -1,73 +1,71 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
+import Carousel from "../components/Carousel.astro";
 ---
 
 <Layout title="Welcome to Astro.">
-  <main>
-    <h1>
-      Welcome to <br />
+  <main class="text-center">
+    <h1 class="text-center">
+      <img src="/images/first_time_logo.webp" />
       <span class="text-gradient">FirstTime Eatery</span>
     </h1>
     <h2>
-      We serve burgers, boba milk tea, and silog. We're located on E.J. Blanco
-      in Dumaguete City, just a few steps away from MDC (Metro Dumaguete
-      College).
+      We serve burgers, boba milk tea, and silog, located on E.J. Blanco in
+      Dumaguete City next right to Metro Dumaguete College.
     </h2>
-    <p class="instructions">
-      <strong>To order:</strong> open the <a href="/menu"
-        ><button
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-          >menu</button
-        ></a
-      > and add items to your cart.
-      <br />
-    </p>
-    <ul role="list" class="link-card-grid">
-      <Card href="/" title="Discounts & Promos" body="">
-        Get <strong>10% off</strong> on group delivery orders placed before 10:30
-        a.m.. (min. order: ₱1000 )
-      </Card>
-      <Card href="/" title="Product of the Week">
-        Product of the week: Tapsilog
-      </Card>
-      <Card href="/" title="Customer of the Week">a</Card>
-      <Card href="/" title="Login or Create an Account">a</Card>
-    </ul>
+    <Carousel />
+    <div class="map">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3937.156396107098!2d123.2893467506718!3d9.319407086905338!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33ab6f3eeecd949b%3A0x2a5d95bb1ba8fe1e!2sFirstTime%20Eatery!5e0!3m2!1sen!2sph!4v1678427101208!5m2!1sen!2sph"
+        width="600"
+        height="450"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <a href="/menu">
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+      >
+        <strong>ORDER NOW</strong>
+      </button>
+    </a>
+    <p></p>
   </main>
-
-  <style>
-    .instructions {
-      line-height: 1.6;
-      margin: 1rem 0;
-      border: 1px solid rgba(var(--accent), 25%);
-      background-color: white;
-      padding: 1rem;
-      border-radius: 0.4rem;
-    }
-    .instructions code {
-      font-size: 0.875em;
-      font-weight: bold;
-      background: rgba(var(--accent), 12%);
-      color: rgb(var(--accent));
-      border-radius: 4px;
-      padding: 0.3em 0.45em;
-    }
-    .instructions strong {
-      color: rgb(var(--accent));
-    }
-    .link-card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-      gap: 1rem;
-      padding: 0;
-    }
-    .text-gradient {
-      background-image: var(--accent-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-size: 400%;
-      background-position: 0%;
-    }
-  </style>
 </Layout>
+<style>
+  .instructions {
+    line-height: 1.6;
+    margin: 1rem 0;
+    border: 1px solid rgba(var(--accent), 25%);
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.4rem;
+  }
+  .instructions code {
+    font-size: 0.875em;
+    font-weight: bold;
+    background: rgba(var(--accent), 12%);
+    color: rgb(var(--accent));
+    border-radius: 4px;
+    padding: 0.3em 0.45em;
+  }
+  .instructions strong {
+    color: rgb(var(--accent));
+  }
+  .link-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+    gap: 1rem;
+    padding: 0;
+  }
+  .text-gradient {
+    background-image: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 400%;
+    background-position: 0%;
+  }
+</style>

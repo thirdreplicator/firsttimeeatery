@@ -1,0 +1,24 @@
+---
+let serialized_categories = null;
+const resp = await fetch("http://localhost:4000/categories");
+const categories = await resp.json();
+serialized_categories = JSON.stringify(categories);
+
+import CategoryNav from "../components/CategoryNav.svelte";
+---
+
+<!-- Store the message prop as a data attribute. -->
+<category-loader data-frontmatter={serialized_categories}></category-loader>
+<CategoryNav client:load />
+
+<script>
+  import { category_store } from "../stores/CategoryStore";
+
+  class CategoryLoader extends HTMLElement {
+    constructor() {
+      super();
+      category_store.set(JSON.parse(this.dataset.frontmatter));
+    }
+  }
+  customElements.define("category-loader", CategoryLoader);
+</script>
