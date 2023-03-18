@@ -1,0 +1,18 @@
+<div class="map mt-8">
+<iframe
+	src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3937.156396107098!2d123.2893467506718!3d9.319407086905338!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33ab6f3eeecd949b%3A0x2a5d95bb1ba8fe1e!2sFirstTime%20Eatery!5e0!3m2!1sen!2sph!4v1678427101208!5m2!1sen!2sph"
+	height="450"
+	style="border:0; margin: auto; display: none"
+	allowfullscreen=""
+	loading="lazy"
+	referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
+
+<script>
+	var el  = document.getElementsByClassName('map')
+	var width = Math.floor(el[0].getBoundingClientRect().width)
+	var ifm = document.querySelector('.map > iframe')
+	ifm.style.width = width
+	ifm.setAttribute('width', width)
+	ifm.style.display = 'block'
+</script>
