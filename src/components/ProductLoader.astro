@@ -1,9 +1,25 @@
 ---
-let frontMatter = "";
-const resp = await fetch("http://localhost:4000/products");
-const products = await resp.json();
-let serialized_products = JSON.stringify(products);
+// Products
+let resp = await fetch("http://localhost:4000/products");
+const _products = await resp.json();
+
+// Load options
+resp = await fetch("http://localhost:4000/options");
+const options = await resp.json();
+
+import { indexByKey } from "../lib/utils";
+const optionsByProductId = indexByKey(options, "product_id");
+
+// Merge options into products.
+let products = [];
+_products.forEach((p) => {
+  const product = { ...p, options: optionsByProductId[p.id] };
+  products.push(product);
+});
+
+// Pass the serialized products into the Selte component for products.
 import ProductList from "../components/ProductList.svelte";
+let serialized_products = JSON.stringify(products);
 ---
 
 <ProductList client:load frontmatter={serialized_products} />

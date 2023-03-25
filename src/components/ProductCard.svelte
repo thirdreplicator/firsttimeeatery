@@ -1,7 +1,32 @@
 <script>
+  export let id = -1
   export let name = "Default Name"
   export let price = "42.00"
   export let image = "taro-boba-medium.webp"
+  export let onlineFactor = 1.0
+  // We will access the product options through the persistent nanostore.
+  import { productStore } from "../stores/ProductStore";
+
+  import { shoppingCartStore, computePrice } from "../stores/ShoppingCartStore"
+  import { current_category } from "../stores/CategoryStore";
+  
+  const current_product = $productStore[id][0]
+
+  let options
+  if (current_product.options == undefined) {
+    options =  []
+  } else {
+    options =[...current_product.options]
+  }
+  let defaultOption = options.filter(o => o.is_default)[0]
+  let selected = defaultOption
+  let selectedOption = defaultOption
+  
+  const addToCart = () => {
+    const computedPrice = computePrice(price, selectedOption, onlineFactor)
+    const optionIds = selectedOption ? [selectedOption.id] : []
+    shoppingCartStore.increment(id, optionIds, computedPrice)
+  }
 </script>
 <div class="my-1 mx-0 w-full md:w-1/2 my-4 md:px-4 lg:w-1/3 xl:w-1/4 2xl:w-1/5">
   <article class="overflow-hidden rounded-lg shadow-lg">
@@ -17,7 +42,7 @@
         class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white truncate max-w-sm"
       >
         <a href="#">
-          {name}
+          { name }
         </a>
       </h5>
     </div>
@@ -77,13 +102,29 @@
         >5.0</span
       >
     </div>
-    <div class="flex items-center justify-between px-4 pb-4">
+    {#if (options.length > 0) }
+    <div class="flex items-center justify-between px-4 pb-4 mt-4">
+      <label> Size:
+      <select bind:value={selected} on:change="{() => {
+        selectedOption = selected;
+      }}">
+        {#each options as option ('option_'+option.id)}
+          <option value={option}>
+            {option.name}
+          </option>
+        {/each}
+      </select>
+    </label>
+    </div>
+    {/if}
+    <div class="flex items-center justify-between px-4 pb-4 mt-4">
       <span class="text-3xl font-bold text-gray-900 dark:text-white"
-        >₱{ price }</span
+        >₱{ computePrice(price, selectedOption, onlineFactor) }</span
       >
       <a
         href="#"
         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        on:click={ addToCart }
         >Add to cart</a
       >
     </div>

@@ -2,8 +2,8 @@
 export interface Props {
   title: string;
 }
-
 const { title } = Astro.props;
+import NavBar from "../components/NavBar.astro";
 ---
 
 <!DOCTYPE html>
@@ -12,92 +12,17 @@ const { title } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/flowbite@1.6.4/dist/flowbite.min.css"
+    />
+
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
   <body class="antialiased">
     <div class="mx-auto">
-      <!-- Navigation //-->
-      <nav
-        class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900 shadow-lg"
-      >
-        <div
-          class="container flex flex-wrap items-center justify-between mx-auto"
-        >
-          <a href="/" class="flex items-center">
-            <img
-              src="/images/first_time_logo_s.webp"
-              class="h-6 mr-3 sm:h-9 md:h-12 lg:h-16 xl:h-24"
-              alt="FirstTime Eatery Logo"
-            />
-            <span
-              class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
-              >FirstTime Eatery &nbsp; <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="heart w-6 h-6 float-right"
-              >
-                <path
-                  d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"
-                ></path>
-              </svg>
-            </span>
-          </a>
-          <button
-            data-collapse-toggle="navbar-default"
-            type="button"
-            class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-default"
-            aria-expanded="false"
-          >
-            <span class="sr-only">Open main menu</span>
-            <svg
-              class="w-6 h-6"
-              aria-hidden="true"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                fill-rule="evenodd"
-                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                clip-rule="evenodd"></path></svg
-            >
-          </button>
-          <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul
-              class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
-            >
-              <li>
-                <a
-                  href="/menu"
-                  class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Menu
-                </a>
-              </li>
-              <!--
-        <li>
-          	<a href="/" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" aria-current="page">
-		    	Home
-		  	</a>
-        </li>
-        <li>
-          	<a href="/about" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-		  		About
-			</a>
-        </li>
-        <li>
-          	<a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-		  		Contact
-			</a>
-        </li>
-		-->
-            </ul>
-          </div>
-        </div>
-      </nav>
-
+      <NavBar />
       <slot />
     </div>
     <script

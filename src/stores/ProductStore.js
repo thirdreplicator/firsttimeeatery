@@ -1,5 +1,6 @@
-import { writable } from "svelte/store"
+import { persistentAtom } from "@nanostores/persistent";
 
-export const product_store = writable([
-  {"id":1,"name":"Taro Boba Milk Tea","category_id":1,"image":"taro-boba-medium.webp","is_original":false,"price":75,"category":"Boba Tea"}
-])
+export const productStore = persistentAtom("products", [], {
+  encode: JSON.stringify,
+  decode: JSON.parse,
+});

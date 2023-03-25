@@ -7,3 +7,5 @@ export const category_store = writable([
 ])
 
 export const current_category = writable(1)
+
+
