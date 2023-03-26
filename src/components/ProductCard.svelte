@@ -66,7 +66,7 @@
     <a>
       <img
         id={'product-image-' + current_product.id}
-        class="product-image block h-auto w-full"
+        class="product-image block h-auto w-full select-none drag-none"
         src={"/images/products/" + image}
         alt="{ name } image"
       />

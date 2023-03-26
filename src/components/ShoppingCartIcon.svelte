@@ -1,12 +1,11 @@
 <script>
-  import { shoppingCartStore } from "../stores/ShoppingCartStore";
+  import { shoppingCartStore, QUANTITY_INDEX } from "../stores/ShoppingCartStore";
   import { onMount } from "svelte";
 
   let count = $shoppingCartStore.length;
 
   shoppingCartStore.subscribe(cart => {
-    count = cart.map(lineItem => lineItem[1]).reduce((sum, x) =>  sum + x, 0)
-		
+    count = cart.map(lineItem => lineItem[QUANTITY_INDEX]).reduce((sum, x) =>  sum + x, 0)
 	});
 
   
