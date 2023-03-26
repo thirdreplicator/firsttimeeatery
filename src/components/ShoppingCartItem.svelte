@@ -65,7 +65,7 @@
   >
     <img
       src="/images/products/thumb/{product.image}"
-      alt="{product.name + ': ' + product.description}"
+      alt="{product.name } image"
       class="h-full w-full object-cover object-center"
     />
   </div>
@@ -76,13 +76,17 @@
         class="flex justify-between text-base font-medium text-gray-900"
       >
         <h3>
-          <a href="#" alt="{product.name}">{product.name}</a>
+          <a alt="{product.name}">{product.name}</a>
         </h3>
         <p class="ml-4">
           {#if quantity > 1}
-          <span>{ quantity } ×</span>
+          <span class="whitespace-nowrap">
+            { quantity } × ₱{price}
+          </span>
+          {:else}
+            ₱{price}
           {/if}
-          ₱{price}</p>
+      </p>
       </div>
       <p class="options mt-1 text-sm text-gray-500">{ optionText }</p>
     </div>

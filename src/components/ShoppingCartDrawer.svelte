@@ -1,6 +1,7 @@
 <script>
   import ShoppingCartItems from "./ShoppingCartItems.svelte";
   import { shoppingCartStore } from "../stores/ShoppingCartStore";
+  import { fade, scale } from "svelte/transition"
 </script>
 
 <!-- drawer component -->
@@ -53,7 +54,7 @@
 
   <ShoppingCartItems />
 
-  <div class="mt-8 flex justify-between">
+  <div class="mt-8 flex justify-between" in:fade out:scale>
     <a
       id="back-to-menu-link"
       data-drawer-hide="shopping-cart-drawer"
@@ -79,7 +80,6 @@
 
     {#if $shoppingCartStore.length > 0 }
     <a
-      href="#"
       class="block text-white bg-gradient-to-r from-yellow-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80 font-semibold rounded-lg text-sm px-5 py-2.5 text-center"
     >
       Checkout

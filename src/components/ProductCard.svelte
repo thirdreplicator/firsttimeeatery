@@ -26,22 +26,56 @@
     const computedPrice = computePrice(price, selectedOption, onlineFactor)
     const optionIds = selectedOption ? [selectedOption.id] : []
     shoppingCartStore.increment(id, optionIds, computedPrice)
+    animateImageToSchoppingCart()
   }
+
+  const transitionMs = 300
+  const startDelayMs = 10
+  const animationEnd = transitionMs + startDelayMs
+
+  const animateImageToSchoppingCart = () => {
+    const el = document.getElementById('product-image-' + current_product.id)
+    const clone = el.cloneNode(true)
+    clone.style.position = "absolute"
+    clone.style.left = el.offsetLeft + "px";
+    clone.style.top = el.offsetTop + "px";
+    clone.style.width = el.offsetWidth + "px";
+    clone.style.height = el.offsetHeight + "px";
+    document.body.appendChild(clone);
+
+    const cart = document.getElementById("shopping-cart-button");
+    const targetX = cart.offsetLeft;
+    const targetY = cart.offsetTop;
+
+    setTimeout(function() {
+      clone.style.left = targetX + "px";
+      clone.style.top = targetY + "px";
+      clone.style.width = "0px";
+      clone.style.height = "0px";
+      clone.style.opacity = "0";
+    }, startDelayMs);
+
+    setTimeout(function() {
+      clone.remove()
+    }, animationEnd)
+  }
+
 </script>
 <div class="my-1 mx-0 w-full md:w-1/2 my-4 md:px-4 lg:w-1/3 xl:w-1/4 2xl:w-1/5">
   <article class="overflow-hidden rounded-lg shadow-lg">
-    <a href="#">
+    <a>
       <img
-        class="block h-auto w-full"
+        id={'product-image-' + current_product.id}
+        class="product-image block h-auto w-full"
         src={"/images/products/" + image}
-        alt="product image"
+        alt="{ name } image"
       />
     </a>
     <div class="flex items-center justify-between leading-tight p-2 md:p-4">
       <h5
         class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white truncate max-w-sm"
       >
-        <a href="#">
+        <a>
           { name }
         </a>
       </h5>
@@ -121,12 +155,17 @@
       <span class="text-3xl font-bold text-gray-900 dark:text-white"
         >₱{ computePrice(price, selectedOption, onlineFactor) }</span
       >
-      <a
-        href="#"
+      <a href="#"
         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        on:click={ addToCart }
+        on:click|preventDefault={ addToCart }
         >Add to cart</a
       >
     </div>
   </article>
 </div>
+
+<style>
+  .product-image {
+    transition: all 300ms ease-in-out;
+  }
+</style>

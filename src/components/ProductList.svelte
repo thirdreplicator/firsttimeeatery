@@ -10,6 +10,7 @@
 
   import { productStore } from "../stores/ProductStore";
   productStore.set(productsById)
+
 </script>
 
 <div class="flex flex-wrap -mx-1 lg:-mx-4">
