@@ -3,7 +3,33 @@
   import { category_store } from  '../stores/CategoryStore.js'
   import CategoryNavButton from './CategoryNavButton.svelte';
 
+  import { onMount } from "svelte";
+  import { onClickBackdrop } from "../lib/utils";
+  import { Drawer } from "flowbite";
+
+  onMount(() => {
+    const targetEl = document.getElementById("category-drawer");
+
+    const options = {
+      placement: "right",
+      backdrop: true,
+      bodyScrolling: false,
+      edge: false,
+      edgeOffset: "",
+      backdropClasses:
+        "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30",
+      onHide: () => {},
+      onShow: () => {
+        onClickBackdrop();
+      },
+      onToggle: () => {},
+    };
+
+    const drawer = new Drawer(targetEl, options);
+
+  });
 </script>
+
 
 <!-- drawer init and toggle -->
 <div class="text-center">

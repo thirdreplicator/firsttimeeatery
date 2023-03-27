@@ -9,3 +9,10 @@ export const indexByKey = (options, byKey) => {
   });
   return optionsByProductId;
 };
+
+export const onClickBackdrop = () => {
+  document.querySelectorAll('div[drawer-backdrop]')
+    .forEach(el => el.addEventListener("click", (e) => {
+      document.querySelectorAll('div[drawer-backdrop]')
+        .forEach(e => e.remove())}))
+}

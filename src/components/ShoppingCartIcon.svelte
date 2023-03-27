@@ -1,6 +1,7 @@
 <script>
   import { shoppingCartStore, QUANTITY_INDEX } from "../stores/ShoppingCartStore";
   import { onMount } from "svelte";
+  import { onClickBackdrop } from "../lib/utils"
 
   let count = $shoppingCartStore.length;
 
@@ -8,7 +9,6 @@
     count = cart.map(lineItem => lineItem[QUANTITY_INDEX]).reduce((sum, x) =>  sum + x, 0)
 	});
 
-  
   import { Drawer } from 'flowbite';
 
   onMount(() => {
@@ -28,7 +28,7 @@
           ;
       },
       onShow: () => {
-          ;
+        onClickBackdrop()
       },
       onToggle: () => {
           ;
