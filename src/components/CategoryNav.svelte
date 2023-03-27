@@ -1,17 +1,16 @@
 <script>
-  
   import { category_store } from  '../stores/CategoryStore.js'
   import CategoryNavButton from './CategoryNavButton.svelte';
 
   import { onMount } from "svelte";
-  import { onClickBackdrop } from "../lib/utils";
   import { Drawer } from "flowbite";
 
   onMount(() => {
     const targetEl = document.getElementById("category-drawer");
-
+    const categoryButton = document.getElementById("category-button")
+    const categoryHideButton = document.getElementById("category-hide-button")
     const options = {
-      placement: "right",
+      placement: "left",
       backdrop: true,
       bodyScrolling: false,
       edge: false,
@@ -20,13 +19,20 @@
         "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30",
       onHide: () => {},
       onShow: () => {
-        onClickBackdrop();
+        document.querySelectorAll('div[drawer-backdrop]')
+        .forEach(el => el.addEventListener("click", (e) => {
+          console.log('clicked on backdrop')
+          var event = new KeyboardEvent('keydown', {'key': 'Escape'});
+          document.dispatchEvent(event);
+          document.querySelectorAll('div[drawer-backdrop]')
+            .forEach(e => e.remove())}))
       },
       onToggle: () => {},
     };
 
     const drawer = new Drawer(targetEl, options);
-
+    categoryButton.addEventListener("click", () => drawer.show())
+    categoryHideButton.addEventListener("click", () => drawer.hide())
   });
 </script>
 
@@ -35,6 +41,7 @@
 <div class="text-center">
   <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
     type="button"
+    id='category-button'
     data-drawer-target="category-drawer" 
     data-drawer-show="category-drawer" 
     aria-controls="category-drawer">
@@ -51,7 +58,9 @@
   <h5 id="drawer-label" class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
     Menu Categories:
   </h5>
-  <button type="button"
+  <button 
+    id="category-hide-button"
+    type="button"
     data-drawer-hide="category-drawer"
     aria-controls="category-drawer"
     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"

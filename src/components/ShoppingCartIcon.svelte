@@ -1,7 +1,5 @@
 <script>
   import { shoppingCartStore, QUANTITY_INDEX } from "../stores/ShoppingCartStore";
-  import { onMount } from "svelte";
-  import { onClickBackdrop } from "../lib/utils"
 
   let count = $shoppingCartStore.length;
 
@@ -9,6 +7,7 @@
     count = cart.map(lineItem => lineItem[QUANTITY_INDEX]).reduce((sum, x) =>  sum + x, 0)
 	});
 
+  import { onMount } from "svelte";
   import { Drawer } from 'flowbite';
 
   onMount(() => {
@@ -28,7 +27,13 @@
           ;
       },
       onShow: () => {
-        onClickBackdrop()
+        document.querySelectorAll('div[drawer-backdrop]')
+          .forEach(el => el.addEventListener("click", (e) => {
+            console.log('clicked on backdrop')
+            var event = new KeyboardEvent('keydown', {'key': 'Escape'});
+            document.dispatchEvent(event);
+            document.querySelectorAll('div[drawer-backdrop]')
+              .forEach(e => e.remove())}))
       },
       onToggle: () => {
           ;
