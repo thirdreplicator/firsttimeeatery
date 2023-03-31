@@ -126,6 +126,7 @@
                 <div class="p-2 text-medium">Or&nbsp;</div>
                 <div class="flex-1 p-2"><hr /></div>
               </div>
+              
               <form class="space-y-4 md:space-y-6" action="#">
                   <div>
                       <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
@@ -153,10 +154,23 @@
                       Sign in
                     </button>
                   </div>
+                  <div class="flex divider items-center justify-center">
+                    <div class="flex-1 p-2"><hr /></div>
+                    <div class="p-2 text-sm font-light text-gray-500 dark:text-gray-400">New customer?&nbsp;</div>
+                    <div class="flex-1 p-2"><hr /></div>
+                  </div>
 
-                  <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                      Don’t have an account yet? <a href="#" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
-                  </p>
+                  <div class="text-sm font-light text-gray-500 dark:text-gray-400">
+                    <a href="/signup">
+                      <button
+                        type="button"
+                        class="mb-2 block w-full rounded border-2 border-primary px-6 pt-2 pb-[6px] text-xs font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:border-primary-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-primary-600 focus:border-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:border-primary-700 active:text-primary-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                        data-te-ripple-init>
+                        Create your FirstTime account
+                      </button>
+                    </a>
+                  </div>
+
               </form>
           </div>
       </div>
