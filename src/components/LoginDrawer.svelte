@@ -1,7 +1,26 @@
 <script>
   import { onMount } from "svelte";
   import { Drawer } from 'flowbite';
+  import { currentUser, isEmpty } from "../stores/CurrentUserStore";
 
+  let showLoginButton = 'none'
+  let showWelcomeUser = 'none'
+
+  currentUser.subscribe(user => {
+    if (Object.keys(user).length == 0) {
+      showLoginButton = 'block'
+      showWelcomeUser = 'none'
+    } else {
+      showLoginButton = 'none'
+      showWelcomeUser = 'block'
+    }
+  })
+
+  const logout = () => {
+    $currentUser = {}
+    window.location = '/'
+  }
+  
   onMount(() => {
     const targetEl = document.getElementById('login-drawer')
     const loginButton = document.getElementById('login-button')
@@ -38,13 +57,16 @@
     loginHideButton.addEventListener("click", () => {
       drawer.hide()
     })
+
   })
 </script>
 
-<div class="text-center">
+
+<div class="text-center hidden" style="display: { showLoginButton }">
   <button
     id="login-button"
-    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+    class="hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"  
+    style="display: { showLoginButton }"
     type="button"
     data-drawer-target="login-drawer"
     data-drawer-placement="bottom"
@@ -54,6 +76,27 @@
     Login
   </button>
 </div>
+
+
+<div id="welcome-user-message" 
+     class="text-center hidden"
+     style="display: { showWelcomeUser }">
+    Welcome,
+    { $currentUser.name  }!    
+</div>
+
+<div  class="text-center hidden"
+      style="display: { showWelcomeUser }"> 
+  <button id="logout-button"
+      class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"  
+      type="button"
+      on:click={ logout }
+  >
+    Logout
+  </button>
+</div>
+
+
 
 <!-- drawer component -->
 <div
@@ -130,11 +173,13 @@
               <form class="space-y-4 md:space-y-6" action="#">
                   <div>
                       <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                      <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="">
+                      <input type="email" name="email" id="email" value="thirdreplicator@gmail.com"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="">
                   </div>
                   <div>
                       <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                      <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                      <input type="password" name="password" id="password" placeholder="••••••••" value="Abcd1234!"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
                   </div>
                   <div class="flex items-center justify-between">
                       <div class="flex items-start">
@@ -187,4 +232,5 @@
   .bg-facebook {
     background-color: #4267B2;
   }
+
 </style>

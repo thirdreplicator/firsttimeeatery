@@ -1,4 +1,10 @@
 <script lang="ts">
+  import { fade, scale } from 'svelte/transition'
+  import { currentUser } from '../stores/CurrentUserStore'
+  import { scrollTo } from '../lib/utils'
+
+  
+
   let responseMessage: string
   let alertLevel = ""
   let isRemember = false
@@ -10,8 +16,6 @@
     if (validatePasswordLength()) { return }
     if (validateEntropy()) { return }
     if (validatePasswordsMatch()) { return }
-
-    displaySuccessMessage()
 
     const theForm = document.getElementById('user-registration-form')
     const formData = new FormData(theForm)
@@ -26,35 +30,37 @@
       },
       body: formDataStringified,
     });
+
     const data = await response.json()
-    responseMessage = data.message
-    
-    if (/duplicate key value violates unique constraint "User_email_idx"/.test(data.message)) {
-      alertLevel = "warn"
-      responseMessage = "A customer account with that email already exists."
+
+    if (/registered/.test(data.message)) {
+      displaySuccessMessage(data)
+      clearForm()
+    } else if (/duplicate key value violates unique constraint "User_email_idx"/.test(data.message)) {
+       displayWarningMessage("A customer account with that email already exists.")
+    } else {
+      displayWarningMessage(data.message)
     }
   }
 
-  const displaySuccessMessage = () => {
+  const displaySuccessMessage = ({userId, name, token, refreshToken}) => {
+    $currentUser = { userId, name, token, refreshToken }
     alertLevel = "success"
-    responseMessage = "All validations passed!"
+    responseMessage = `Successfully registered!`
     scrollTo('user-registration-success')
   }
 
-  const scrollTo = (domId) => {
-    setTimeout(() => {
-        const el = document.getElementById(domId)
-        window.scrollTo({top: el.offsetTop, left: 0, behavior: 'smooth'})
-      }, 30)
+  const displayWarningMessage = (message) => {
+    alertLevel = "warn"
+    responseMessage = message
+    scrollTo('user-registration-error')
   }
 
   const validate = (selector, condition, warning) => {
     const el = document.querySelector(selector)
     const val = el.value
     if (!condition(val)) {
-      alertLevel = 'warn'
-      responseMessage = warning
-      scrollTo('user-registration-error')
+      displayWarningMessage(warning)
       return true
     }
   }
@@ -88,8 +94,28 @@
       isRemember = true
     }
   }
-</script>
 
+  const clearForm = () => {
+    const elName = document.querySelector('#user-registration-form input[name="name"]')
+    elName.value = ''
+
+    const elEmail = document.querySelector('#user-registration-form input[type="email"]')
+    elEmail.value = ''
+
+    const elPassword = document.querySelector('#user-registration-form input[name="password"]')
+    elPassword.value = ''
+
+    const elConfirmation = document.querySelector('#user-registration-form input[name="password_confirmation"]')
+    elConfirmation.value = ''
+  }
+
+</script>
+<!--
+<button class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+  on:click={ clearForm }>
+  Click me!
+</button>
+-->
 <form id="user-registration-form" class="space-y-4 md:space-y-6 mt-4" on:submit="{submit}">
   <!-- name -->
   <div>
@@ -138,7 +164,7 @@
       type="password"
       name="password"
       id="user_password"
-      value="abc123aa"
+      value="Abcd1234!"
       placeholder="••••••••"
       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
       required=""
@@ -154,7 +180,7 @@
     <input
       type="password"
       name="password_confirmation"
-      value="abc123aa"
+      value="Abcd1234!"
       id="password_confirmation"
       placeholder=""
       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -207,7 +233,11 @@
 
   <!-- Response message-->
   {#if alertLevel == "warn" }
-  <div id='user-registration-error' class="user_reg_error mt-8 bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4 {alertLevel.length > 0 ? "" : "hidden"}" role="alert">
+  <div id='user-registration-error'
+  class="user_reg_error mt-8 bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4 {alertLevel.length > 0 ? "" : "hidden"}"
+  role="alert"
+  in:fade out:scale
+  >
     <div class="flex">
       <div>
         <p class="font-bold">Oh no!</p>
@@ -242,7 +272,9 @@
   {:else if alertLevel == "success"}
   <div id="user-registration-success"
       class="mt-8 bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md"
-      role="alert">
+      role="alert"
+      in:fade out:scale
+      >
     <div class="flex">
       <div class="py-1"><svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
       <div>

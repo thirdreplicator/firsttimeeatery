@@ -9,3 +9,10 @@ export const indexByKey = (options, byKey) => {
   });
   return optionsByProductId;
 };
+
+export const scrollTo = (domId) => {
+  setTimeout(() => {
+      const el = document.getElementById(domId)
+      window.scrollTo({top: el.offsetTop, left: 0, behavior: 'smooth'})
+    }, 30)
+}
