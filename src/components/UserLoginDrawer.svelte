@@ -2,9 +2,11 @@
   import { onMount } from "svelte";
   import { Drawer } from 'flowbite';
   import { currentUser, isEmpty } from "../stores/CurrentUserStore";
+  import { fade, scale } from 'svelte/transition'
 
   let showLoginButton = 'none'
   let showWelcomeUser = 'none'
+  let showLoginError = false
 
   currentUser.subscribe(user => {
     if (Object.keys(user).length == 0) {
@@ -21,10 +23,37 @@
     window.location = '/'
   }
   
+  const submitLoginForm = async  (e) => {
+      console.log('clicked')
+      e.preventDefault()
+      const loginForm = document.getElementById('user-login-form')
+      const formData = new FormData(loginForm)
+      const formObj = Object.fromEntries(formData.entries())
+      const formDataStringified = JSON.stringify(formObj)
+      console.log(formDataStringified)
+
+
+      const response = await fetch("/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: formDataStringified,
+      });
+
+      const data = await response.json()
+      console.log('login response', data)
+      if (data.loginInfo) {
+        $currentUser = data.loginInfo
+        window.location = '/menu'
+      } else if (/password.*does not match/.test(data.message)) {
+        showLoginError = true
+      }
+  }
+
   onMount(() => {
     const targetEl = document.getElementById('login-drawer')
     const loginButton = document.getElementById('login-button')
     const loginHideButton = document.getElementById('login-hide-button')
+    
     const options = {
       placement: 'bottom',
       backdrop: true,
@@ -58,7 +87,15 @@
       drawer.hide()
     })
 
-  })
+    $: {  
+      if (showLoginError) {
+        setTimeout(() => {
+          document.getElementById('user-login-error-hide-button').addEventListener('click', () => { showLoginError = false })
+        }, 500)
+      }
+    }
+
+})
 </script>
 
 
@@ -147,6 +184,7 @@
         </div>
 
   </div>
+  
               <!-- Facebook button-->
               <div class="w-full text-center">
                 <button type="button"
@@ -170,15 +208,15 @@
                 <div class="flex-1 p-2"><hr /></div>
               </div>
               
-              <form class="space-y-4 md:space-y-6" action="#">
+              <form id="user-login-form" class="space-y-4 md:space-y-6" action="#">
                   <div>
                       <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                      <input type="email" name="email" id="email" value="thirdreplicator@gmail.com"
+                      <input type="email" name="email" id="email"
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="">
                   </div>
                   <div>
                       <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                      <input type="password" name="password" id="password" placeholder="••••••••" value="Abcd1234!"
+                      <input type="password" name="password" id="password" placeholder="••••••••"
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
                   </div>
                   <div class="flex items-center justify-between">
@@ -195,10 +233,38 @@
                   <div class="w-full text-center">
                     <button
                     type="submit"
-                    class="w-40 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                    class="w-40 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    on:click={ submitLoginForm }
+                    >
+
                       Sign in
                     </button>
                   </div>
+
+                  <!-- Error notification goes here. -->
+
+                  {#if showLoginError }
+                  <div id='user-login-error'
+                    class="max-w-xs bg-white border rounded-md shadow-lg dark:bg-gray-800 dark:border-gray-700"
+                    role="alert"
+                    in:fade out:scale
+                    >
+                    <div id='user-login-error-hide-button' class="flex p-4">
+                      <div class="flex-shrink-0">
+                        <svg class="h-4 w-4 text-red-500 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                        </svg>
+                      </div>
+                      <div class="ml-3">
+                        <p class="text-sm text-gray-700 dark:text-gray-400">
+                          This is an error message.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  {/if}
+
+
                   <div class="flex divider items-center justify-center">
                     <div class="flex-1 p-2"><hr /></div>
                     <div class="p-2 text-sm font-light text-gray-500 dark:text-gray-400">New customer?&nbsp;</div>
@@ -220,6 +286,8 @@
           </div>
       </div>
   </div>
+
+
 </section>
 
 </div>

@@ -33,7 +33,7 @@ shoppingCartStore.increment = (productId, optionIds, computedPrice) => {
   shoppingCartStore.set(cart)
 }
 
-export const computePrice = (basePrice, selectedOption, onlineFactor) => parseInt(Math.floor(Math.round(onlineFactor * (basePrice + (selectedOption ? selectedOption.price_modifier  : 0)))))
+export const computePrice = (basePrice, selectedOption, onlineFactor) => Math.max(2, parseInt(Math.floor(Math.ceil(onlineFactor * (basePrice + (selectedOption ? selectedOption.price_modifier  : 0))))))
 
 export const total = (cart) => {
   return cart.map(line => line[QUANTITY_INDEX] * line[PRICE_INDEX])

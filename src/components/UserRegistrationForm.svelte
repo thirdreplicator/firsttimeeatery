@@ -127,7 +127,7 @@
     <input
       type="name"
       name="name"
-      value="David"
+      value=""
       id="user_name"
       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
       placeholder="Johnny Appleseed"
@@ -145,7 +145,7 @@
     <input
       type="email"
       name="email"
-      value="thirdreplicator@gmail.com"
+      value=""
       id="user_email"
       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
       placeholder="name@company.com"
@@ -164,7 +164,7 @@
       type="password"
       name="password"
       id="user_password"
-      value="Abcd1234!"
+      value=""
       placeholder="••••••••"
       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
       required=""
@@ -180,7 +180,7 @@
     <input
       type="password"
       name="password_confirmation"
-      value="Abcd1234!"
+      value=""
       id="password_confirmation"
       placeholder=""
       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
