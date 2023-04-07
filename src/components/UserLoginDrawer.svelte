@@ -23,8 +23,19 @@
     window.location = '/'
   }
   
+  const loginWithFacebook = () => {
+    FB.login(function(response) {
+      if (response.status === 'connected') {
+        console.log('Logged into your webpage and Facebook.', response)
+      } else {
+        console.log('The person is not logged into your webpage or we are unable to tell.')
+      }
+    }, {scope: 'public_profile,email'});
+
+  }
+
+
   const submitLoginForm = async  (e) => {
-      console.log('clicked')
       e.preventDefault()
       const loginForm = document.getElementById('user-login-form')
       const formData = new FormData(loginForm)
@@ -44,8 +55,9 @@
       if (data.loginInfo) {
         $currentUser = data.loginInfo
         window.location = '/menu'
-      } else if (/password.*does not match/.test(data.message)) {
+      } else {
         showLoginError = true
+        loginErrorMessage = data.message
       }
   }
 
@@ -98,7 +110,6 @@
 })
 </script>
 
-
 <div class="text-center hidden" style="display: { showLoginButton }">
   <button
     id="login-button"
@@ -113,7 +124,6 @@
     Login
   </button>
 </div>
-
 
 <div id="welcome-user-message" 
      class="text-center hidden"
@@ -132,8 +142,6 @@
     Logout
   </button>
 </div>
-
-
 
 <!-- drawer component -->
 <div
@@ -187,7 +195,7 @@
   
               <!-- Facebook button-->
               <div class="w-full text-center">
-                <button type="button"
+                <button type="button" on:click={ loginWithFacebook }
                   class="w-60 text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 mr-2 mb-2">
                   <svg class="float-left w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="facebook-f" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M279.1 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.4 0 225.4 0c-73.22 0-121.1 44.38-121.1 124.7v70.62H22.89V288h81.39v224h100.2V288z"></path></svg>
                   Sign in with Facebook
@@ -257,7 +265,7 @@
                       </div>
                       <div class="ml-3">
                         <p class="text-sm text-gray-700 dark:text-gray-400">
-                          This is an error message.
+                          { loginErrorMessage }
                         </p>
                       </div>
                     </div>
