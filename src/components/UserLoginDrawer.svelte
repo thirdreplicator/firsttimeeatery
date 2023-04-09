@@ -27,6 +27,11 @@
     FB.login(function(response) {
       if (response.status === 'connected') {
         console.log('Logged into your webpage and Facebook.', response)
+        // 1. Save response on server. (find or create "User", then find/update row in fb_info and attach to "User")
+        // 2. Request user's first_name, last_name, full_name, picture, email, save response on server.
+        // 3. Display it on the current page.
+        // 4. Save it on the server.
+        // 5. Redirect to /menu.
       } else {
         console.log('The person is not logged into your webpage or we are unable to tell.')
       }
