@@ -25,28 +25,6 @@ import NavBar from "../components/NavBar.astro";
       <NavBar />
       <slot />
     </div>
-    <script>
-      window.fbAsyncInit = function () {
-        FB.init({
-          appId: "595200575803659",
-          autoLogAppEvents: true,
-          xfbml: false,
-          cookie: true,
-          version: "v16.0",
-          status: true,
-        });
-        FB.AppEvents.logPageView();
-        FB.getLoginStatus(function (response) {
-          console.log("Facebook response", response);
-        });
-      };
-    </script>
-    <script
-      async
-      defer
-      crossorigin="anonymous"
-      src="https://connect.facebook.net/en_US/all.js"
-    ></script>
   </body>
 </html>
 <style is:global>
