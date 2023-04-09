@@ -5,4 +5,4 @@ export const currentUser = persistentAtom("currentUser", {}, {
   decode: JSON.parse,
 });
 
-export const isEmpty = (user) => Object.keys(user).length == 0
+export const isLoggedIn = (user) => Object.keys(user).length != 0

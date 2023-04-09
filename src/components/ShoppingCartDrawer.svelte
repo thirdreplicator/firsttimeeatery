@@ -2,6 +2,51 @@
   import ShoppingCartItems from "./ShoppingCartItems.svelte";
   import { shoppingCartStore } from "../stores/ShoppingCartStore";
   import { fade, scale } from "svelte/transition"
+  import { currentUser, isLoggedIn } from "../stores/CurrentUserStore";
+  import { onMount } from "svelte";
+
+
+  onMount(() => {
+    const targetEl = document.getElementById('login-drawer')
+    const miniCartCheckoutButton = document.getElementById('mini-cart-checkout-button')
+    
+    const options = {
+      placement: 'bottom',
+      backdrop: true,
+      bodyScrolling: false,
+      edge: false,
+      edgeOffset: '',
+      backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30',
+      onHide: () => {
+          ;
+      },
+      onShow: () => {
+        document.querySelectorAll('div[drawer-backdrop]')
+          .forEach(el => el.addEventListener("click", (e) => {
+            console.log('clicked on backdrop')
+            var event = new KeyboardEvent('keydown', {'key': 'Escape'});
+            document.dispatchEvent(event);
+            document.querySelectorAll('div[drawer-backdrop]')
+              .forEach(e => e.remove())}))
+      },
+      onToggle: () => {
+          ;
+      }
+    };
+
+    const loginDrawer = new Drawer(targetEl, options);
+
+    const clickCheckoutButton = () => {
+      if (isLoggedIn($currentUser)) {
+        window.location = '/checkout'
+      } else {
+        loginDrawer.show()
+      }
+    }
+    miniCartCheckoutButton.addEventListener("click", () => {
+      clickCheckoutButton()
+    })
+  })
 </script>
 
 <!-- drawer component -->
@@ -79,8 +124,8 @@
     </a>
 
     {#if $shoppingCartStore.length > 0 }
-    <a
-      class="block text-white bg-gradient-to-r from-yellow-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80 font-semibold rounded-lg text-sm px-5 py-2.5 text-center"
+    <a id='mini-cart-checkout-button'
+      class="select-none block text-white bg-gradient-to-r from-yellow-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80 font-semibold rounded-lg text-sm px-5 py-2.5 text-center"
     >
       Checkout
       <br />

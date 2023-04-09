@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { Drawer } from 'flowbite';
-  import { currentUser, isEmpty } from "../stores/CurrentUserStore";
+  import { currentUser, isLoggedIn } from "../stores/CurrentUserStore";
   import { fade, scale } from 'svelte/transition'
 
   let showLoginButton = 'none'
@@ -9,12 +9,12 @@
   let showLoginError = false
 
   currentUser.subscribe(user => {
-    if (Object.keys(user).length == 0) {
-      showLoginButton = 'block'
-      showWelcomeUser = 'none'
-    } else {
+    if (isLoggedIn(user)) {
       showLoginButton = 'none'
       showWelcomeUser = 'block'
+    } else {
+      showLoginButton = 'block'
+      showWelcomeUser = 'none'
     }
   })
 
