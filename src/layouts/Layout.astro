@@ -21,7 +21,7 @@ import NavBar from "../components/NavBar.astro";
     <title>{title}</title>
   </head>
   <body class="antialiased">
-    <div class="mx-auto">
+    <div id="fb-root" class="mx-auto">
       <NavBar />
       <slot />
     </div>
@@ -45,7 +45,7 @@ import NavBar from "../components/NavBar.astro";
       async
       defer
       crossorigin="anonymous"
-      src="https://connect.facebook.net/en_US/sdk/debug.js"
+      src="https://connect.facebook.net/en_US/all.js"
     ></script>
   </body>
 </html>
