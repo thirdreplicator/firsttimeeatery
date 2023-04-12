@@ -3,7 +3,7 @@ import { persistentAtom } from "@nanostores/persistent";
 export const shoppingCartStore = persistentAtom("shoppingCartStore", {data: [], updatedAt: 0}, {
   encode: JSON.stringify,
   decode: JSON.parse,
-})
+});
 
 export const QUANTITY_INDEX = 1
 export const PRICE_INDEX = 2
@@ -12,7 +12,7 @@ shoppingCartStore.subscribe((cart) =>
   console.log('show miniCart', JSON.stringify(cart))
 )
 
-shoppingCartStore.makeKey = (productId, optionIds) => {
+shoppingCartStore.makeKey = (productId, optionsIds) => {
   return JSON.stringify([productId].concat(optionIds.sort((a,b) => a - b)))
 }
 
@@ -48,8 +48,9 @@ shoppingCartStore.length = () => {
 }
 
 shoppingCartStore.deleteItem = (lineKey) => {
-  let cart = shoppingCartStore.get().data
-  return shoppingCartStore.set({data: cart.filter(line => line[0] != lineKey), updatedAt: Date.now()})
+  //console.log(product)
+  $shoppingCartStore.data = shoppingCartStore.data.filter(line => line[0] != lineKey)
+  $shoppingCartStore = $shoppingCartStore
 }
 
 shoppingCartStore.totalQuantity = () => {
@@ -80,43 +81,40 @@ export const parseLineItem = (lineItem) => {
   return [lineKey, productId, optionIds, quantity, price]
 }
 
-export const saveCart = async (cartContents, authToken) => {
-  if (authToken == undefined) { return }
-  try {
-    // Check if cartContents is in the correct format
-    if (typeof cartContents !== "string") {
-      throw new Error("Invalid cartContents format. It must be a string.");
-    }
-    if ( JSON.parse(cartContents).data.length == 0) {
-      throw new Error("Invalid cartContents. The cart cannot be empty before trying to save it.");
-    }
+// export const saveCart = async (cartContents, authToken) => {
+//   if (authToken == undefined) { return }
+//   try {
+//     // Check if cartContents is in the correct format
+//     if (typeof cartContents !== "string" || !JSON.parse(cartContents).length) {
+//       throw new Error("Invalid cartContents format. It must be a string.");
+//     }
 
-    // Set up the request headers
-    const headers = new Headers({
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${authToken}`,
-    });
+//     // Set up the request headers
+//     const headers = new Headers({
+//       "Content-Type": "application/json",
+//       "Authorization": `Bearer ${authToken}`,
+//     });
 
-    // Set up the request options
-    const requestOptions = {
-      method: "POST",
-      headers: headers,
-      body: cartContents,
-    };
+//     // Set up the request options
+//     const requestOptions = {
+//       method: "POST",
+//       headers: headers,
+//       body: cartContents,
+//     };
 
-    // Make the fetch request to update the cart
-    const response = await fetch("/cart", requestOptions);
+//     // Make the fetch request to update the cart
+//     const response = await fetch("/cart", requestOptions);
 
-    // Check if the response is successful
-    if (!response.ok) {
-      throw new Error(`Failed to update cart. Status: ${response.status}`);
-    }
+//     // Check if the response is successful
+//     if (!response.ok) {
+//       throw new Error(`Failed to update cart. Status: ${response.status}`);
+//     }
 
-    // Parse and return the JSON response
-    const jsonResponse = await response.json();
-    return jsonResponse;
-  } catch (error) {
-    console.error(`Error: ${error.message}`);
-    return null;
-  }
-}
+//     // Parse and return the JSON response
+//     const jsonResponse = await response.json();
+//     return jsonResponse;
+//   } catch (error) {
+//     console.error(`Error: ${error.message}`);
+//     return null;
+//   }
+// }

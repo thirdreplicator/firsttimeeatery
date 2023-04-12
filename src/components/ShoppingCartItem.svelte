@@ -1,13 +1,10 @@
 <script>
-  export let lineItem = {
-    name: 'Default name',
-    image: 'Default image', 
-    price: '-42',
-    quantity: '-1',
-    description: 'No description',
-    options: [],
-  }
+  export let lineItem
 
+  // shoppingCartStore  = {
+  //   data: ["[{product_id}, ...sorted_option_ids", quantity, price]
+  //   updatedAt: unix_timestamp INT
+  // }
   
   import { shoppingCartStore, parseLineItem } from "../stores/ShoppingCartStore"
   import { productStore } from "../stores/ProductStore";
@@ -18,16 +15,10 @@
   product.selectedOptions = [...optionIds]
   product.image = product.image.replace(/\.[^/.]+$/, ".avif")
 
-  let deleteItem = (cart) => {
-    //console.log(product)
-    $shoppingCartStore = cart.filter(line => line[0] != lineKey)
-  }
-
-  const getCurrentLineItem = $shoppingCartStore.filter(line => line[0] == lineKey)[0]
   const getOptionInfo = (productId, optionId) => $productStore[productId][0].options.filter(o =>  o.id == optionId)[0]
   const getIndex = () => {
     let  i =  -1
-    $shoppingCartStore.forEach((row, k) => {
+    $shoppingCartStore.data.forEach((row, k) => {
       if (row[0] == lineKey) {
         i = k
       }
@@ -47,16 +38,18 @@
 
   const incrementQuantity = () => {
     quantity += 1
-    $shoppingCartStore[getIndex()][1] += 1
+    $shoppingCartStore.data[getIndex()][1] += 1
+    $shoppingCartStore.updatedAt = Date.now()
     $shoppingCartStore = $shoppingCartStore
   }
   const decrementQuantity = () => {
     quantity -= 1
-    $shoppingCartStore[getIndex()][1] -= 1
-    $shoppingCartStore = $shoppingCartStore
+    $shoppingCartStore.data[getIndex()][1] -= 1
+    $shoppingCartStore.updatedAt = Date.now()
     if (quantity == 0) {
-      deleteItem($shoppingCartStore)
+      shoppingCartStore.deleteItem(lineKey)
     }
+    $shoppingCartStore = $shoppingCartStore
   }
 </script>
 <li class="flex py-6 items-center">
@@ -64,8 +57,8 @@
     class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200"
   >
     <img
-      src="/images/products/thumb/{product.image}"
-      alt="{product.name } image"
+      src="/images/products/thumb/{ product.image }"
+      alt="{ product.name } image"
       class="h-full w-full object-cover object-center"
     />
   </div>
@@ -135,7 +128,7 @@
         </div>
       </div>
       <div>
-        <button on:click={ () => deleteItem($shoppingCartStore) }>
+        <button on:click={ () => shoppingCartStore.deleteItem(lineKey) }>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

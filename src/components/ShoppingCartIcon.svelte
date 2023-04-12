@@ -1,10 +1,12 @@
 <script>
   import { shoppingCartStore, QUANTITY_INDEX } from "../stores/ShoppingCartStore";
+  import { currentUser, isLoggedIn } from "../stores/CurrentUserStore";
+  import { saveCart } from "../stores/ShoppingCartStore";
 
-  let count = $shoppingCartStore.length;
+  let count = 0;
 
   shoppingCartStore.subscribe(cart => {
-    count = cart.map(lineItem => lineItem[QUANTITY_INDEX]).reduce((sum, x) =>  sum + x, 0)
+    count = shoppingCartStore.totalQuantity()
 	});
 
   import { onMount } from "svelte";
@@ -26,7 +28,13 @@
       onHide: () => {
           ;
       },
-      onShow: () => {
+      onShow: async () => {
+        
+        if (isLoggedIn($currentUser)) {
+          const resp = await saveCart(JSON.stringify($shoppingCartStore), $currentUser.token)
+          console.log('update cart in redis', resp)
+        }
+        
         document.querySelectorAll('div[drawer-backdrop]')
           .forEach(el => el.addEventListener("click", (e) => {
             console.log('clicked on backdrop')
