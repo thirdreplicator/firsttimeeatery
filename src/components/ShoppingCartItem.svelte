@@ -26,15 +26,20 @@
     return i
   }
 
-  let optionText = ''
-  optionIds.forEach(optionId => {
-    let option = getOptionInfo(productId, optionId)
-    if (optionText.length > 0) {
-      optionText += ", " + option.name
-    } else {
-      optionText = option.name
-    }
-  });
+  const getOptionText = (productId, optionIds) => {
+    let optionText = ''
+    optionIds.forEach(optionId => {
+      let option = getOptionInfo(productId, optionId)
+      if (optionText.length > 0) {
+        optionText += ", " + option.name
+      } else {
+        optionText = option.name
+      }
+    });
+    return optionText
+  }
+  
+  let optionText = getOptionText(productId, optionIds)
 
   const incrementQuantity = () => {
     quantity += 1

@@ -5,6 +5,10 @@
   import { currentUser, isLoggedIn } from "../stores/CurrentUserStore";
   import { onMount } from "svelte";
 
+  onMount(() => {
+    const checkoutButton = document.getElementById('mini-cart-checkout-button')
+    checkoutButton.addEventListener('click', () => window.location = '/checkout')
+  })
 </script>
 
 <!-- drawer component -->
