@@ -1,4 +1,5 @@
 import { persistentAtom } from "@nanostores/persistent";
+import { currentUser, isLoggedIn } from "../stores/CurrentUserStore";
 
 export const shoppingCartStore = persistentAtom("shoppingCartStore", {data: [], updatedAt: 0}, {
   encode: JSON.stringify,
@@ -8,9 +9,11 @@ export const shoppingCartStore = persistentAtom("shoppingCartStore", {data: [], 
 export const QUANTITY_INDEX = 1
 export const PRICE_INDEX = 2
 
-shoppingCartStore.subscribe((cart) => 
-  console.log('show miniCart', JSON.stringify(cart))
-)
+const isValidCart = (cart) => {
+  const hasDataProperty = 'data' in cart
+  const hasUpdatedAtProperty = 'updatedAt' in cart
+  return hasDataProperty && hasUpdatedAtProperty
+}
 
 shoppingCartStore.makeKey = (productId, optionIds) => {
   return JSON.stringify([productId].concat(optionIds.sort((a,b) => a - b)))
@@ -119,4 +122,45 @@ export const saveCart = async (cartContents, authToken) => {
     console.error(`Error: ${error.message}`);
     return null;
   }
+}
+
+export const loadCart = async (authToken) => {
+  if (authToken == undefined) { return }
+
+  try {
+    // Set up the request headers
+    const headers = new Headers({
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${authToken}`,
+    });
+
+    // Set up the request options
+    const requestOptions = {
+      method: "GET",
+      headers: headers,
+    };
+
+    // Make the fetch request to get the cart
+    const response = await fetch("/cart", requestOptions);
+
+    // Check if the response is successful
+    if (!response.ok) {
+      throw new Error(`Failed to load cart. Status: ${response.status}`);
+    }
+
+    // Parse and return the JSON response
+    const jsonResponse = await response.json();
+    return jsonResponse;
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    return null;
+  }
+}
+
+if (isLoggedIn(currentUser.get())) {
+  let cart = await loadCart(currentUser.get().token)
+  if (!isValidCart(cart)) { throw('Invalid cart loaded from loadCart') }
+  shoppingCartStore.set(cart)
+
+  console.log()
 }
