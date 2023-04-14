@@ -10,8 +10,8 @@ export const QUANTITY_INDEX = 1
 export const PRICE_INDEX = 2
 
 const isValidCart = (cart) => {
-  const hasDataProperty = 'data' in cart
-  const hasUpdatedAtProperty = 'updatedAt' in cart
+  const hasDataProperty =  cart && 'data' in cart
+  const hasUpdatedAtProperty = cart && 'updatedAt' in cart
   return hasDataProperty && hasUpdatedAtProperty
 }
 
