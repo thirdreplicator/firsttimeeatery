@@ -1,11 +1,6 @@
 <script>
   export let lineItem
 
-  // shoppingCartStore  = {
-  //   data: ["[{product_id}, ...sorted_option_ids", quantity, price]
-  //   updatedAt: unix_timestamp INT
-  // }
-  
   import { shoppingCartStore, parseLineItem } from "../stores/ShoppingCartStore"
   import { productStore } from "../stores/ProductStore";
   

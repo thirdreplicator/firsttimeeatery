@@ -25,7 +25,6 @@
     return optionText
   }
   
-  
   let hydratedLineItems
   let error = null;
 
@@ -46,24 +45,29 @@
         }
 
         lineItems = await response.json();
-        console.log('---------', lineItems)
         hydratedLineItems = lineItems.data.reduce((accum, lineItem) => {
           let [lineKey, productId, optionIds, quantity, price] = parseLineItem(lineItem)
           const obj =  {
+            key: 'lineItem-' + lineKey,
             name: productsById[productId].name,
+            image: productsById[productId].image.replace(/\.[^/.]+$/, ".avif"),
             optionText: getOptionText(productId, optionIds),
             quantity,
             price
           }
           return [...accum, obj]
         }, [])
-        console.log('line 31',  hydratedLineItems)
         
       } catch (err) {
         error = err.message;
       }
     }
   });
+
+  let computeTotal = (lineItems) => {
+    return lineItems.reduce((sum, lineItem) => sum + lineItem.quantity*lineItem.price, 0)
+  }
+  
 </script>
 
 <div class="mt-4">
@@ -77,22 +81,78 @@
       <p>Your cart is empty.</p>
     </div>
   {:else}
-    <table class="min-w-full table-auto border-collapse">
-      <thead>
-        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-          <th class="py-3 px-6 text-left">Product</th>
-          <th class="py-3 px-6 text-left">Options</th>
-          <th class="py-3 px-6 text-center">Quantity</th>
-          <th class="py-3 px-6 text-center">Price</th>
-        </tr>
-      </thead>
-      <tbody class="text-gray-600 text-sm font-light">
-        {#each hydratedLineItems as lineItem}
+
+  <div class='flex'>
+    <div class='right flex-auto'>
+      <div class='flex py-3'>
+        <div class='font-semibold text-lg text-left w-5 py-3'>1</div>
+        <h2 class="col-span-1 text-left font-semibold text-lg pr-10 py-3">Delivery Address</h2>
+        <div class="col-span-3 text-left font-light text-base py-3 flex-1">Your address details</div>
+        <div class="action col-span-1 text-center text-base px-3 py-3"><a>Change</a></div>
+      </div>
+      <div class='flex py-3'>
+        <div class='font-semibold text-lg text-left w-5 py-3'>2</div>
+        <h2 class="col-span-1 text-left font-semibold text-lg pr-10 py-3 ">Payment method </h2>
+        <div class="col-span-3 text-left  font-light text-base py-3  flex-1">
+          Cash on Delivery (COD)
+        </div>
+        <div class='col-span-1 text-center text-base px-3 py-3 text-right' ><a></a></div>
+      </div>
+
+      <div class='flex'>
+        <div class='font-semibold text-lg text-left w-5 py-3'>3</div>
+        <h2 class="flex-auto text-left font-semibold text-lg py-3">Review items </h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="divide-y divide-gray-200">
+    <div class="grid grid-cols-4 gap-4 py-3 px-6 bg-gray-200 text-gray-600 uppercase text-sm font-semibold">
+      <div class="col-span-1 text-left">Product</div>
+      <div class="col-span-1 text-left">Options</div>
+      <div class="col-span-1 text-center"></div>
+      <div class="col-span-1 text-center">Price</div>
+    </div>
+    <div class="text-gray-900 bg-white font-light">
+        {#each hydratedLineItems as lineItem (lineItem.key) }
           <CheckoutLineItem lineItem ={ lineItem } />
         {/each}
-      </tbody>
-    </table>
+    </div>
+
+
+  <div class="flex flex-wrap py-6">
+    <div class='px-6 text-left'>
+      <button
+        class="color-order-button shadow-xl hover:shadow-md text-black font-semibold text-base py-2 px-6 rounded transition duration-100 ease-in-out"
+      >
+        Proceed To Checkout
+      </button>
+    </div>
+    <div class="color-price text-left flex-1 px-6 text-xl font-semibold">Order total: ₱{computeTotal(hydratedLineItems)}</div>
+  </div>
+
+
+  </div>
   {/if}
 </div>
 
+<style>
+  .color-price {
+    color: #B12704;
+  }
+  .color-order-button {
+    background-color: rgb(255, 216, 20);
+    transition: box-shadow 0.15s ease-in-out;
+    border-radius: 8px;
+    
+  }
+  .color-order-button:hover,  .color-order-button:active {
+    background-color: rgb(245, 205, 19);
+  }
+  .color-order-button:active {
+    border-radius: 8px;
+    border-color: #008296;
+    
+  }
+</style>
 <!-- Add any additional checkout UI elements here -->
