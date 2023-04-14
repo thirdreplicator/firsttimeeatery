@@ -161,6 +161,4 @@ if (isLoggedIn(currentUser.get())) {
   let cart = await loadCart(currentUser.get().token)
   if (!isValidCart(cart)) { throw('Invalid cart loaded from loadCart') }
   shoppingCartStore.set(cart)
-
-  console.log()
 }

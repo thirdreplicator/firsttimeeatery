@@ -1,7 +1,7 @@
 <script>
   import { shoppingCartStore, QUANTITY_INDEX } from "../stores/ShoppingCartStore";
   import { currentUser, isLoggedIn } from "../stores/CurrentUserStore";
-  import { saveCart } from "../stores/ShoppingCartStore";
+  import { saveCartOnServer } from "../lib/acrossStores";
 
   let count = 0;
 
@@ -31,8 +31,7 @@
       onShow: async () => {
         
         if (isLoggedIn($currentUser)) {
-          const resp = await saveCart(JSON.stringify($shoppingCartStore), $currentUser.token)
-          console.log('update cart in redis', resp)
+          const resp = await saveCartOnServer()
         }
         
         document.querySelectorAll('div[drawer-backdrop]')

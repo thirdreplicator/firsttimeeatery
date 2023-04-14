@@ -3,9 +3,10 @@
   import { currentUser } from '../stores/CurrentUserStore.js';
 
   let lineItems = {data: [], updatedAt: 0 };
+  let showEmptyCart = 'none'
   import { productStore } from "../stores/ProductStore";
   import CheckoutLineItem from './CheckoutLineItem.svelte';
-  import { parseLineItem } from '../stores/ShoppingCartStore.js';
+  import { shoppingCartStore, parseLineItem } from '../stores/ShoppingCartStore.js';
 
   const products = productStore.get()
   const productsById = Object.keys(products).reduce((accumulator, productId) => {
@@ -30,6 +31,9 @@
 
   onMount(async () => {
     const user = currentUser.get();
+    if (0 == shoppingCartStore.totalQuantity()) {
+      showEmptyCart = 'block'
+    }
     if (user && user.token) {
       try {
         const response = await fetch('/cart', {
@@ -69,6 +73,11 @@
   }
   
 </script>
+<h1 class="text-center text-3xl">Checkout
+  <span class="text-2xl font-medium hidden" style='display: {shoppingCartStore.totalQuantity() > 0 ? 'inline' : 'none'}'>
+    ({shoppingCartStore.totalQuantity()} items)
+  </span>
+</h1>
 
 <div class="mt-4">
   {#if error}
@@ -77,7 +86,7 @@
       <span class="block sm:inline">{error}</span>
     </div>
   {:else if hydratedLineItems == undefined || (lineItems.data && lineItems.data.length == 0) }
-    <div class="text-center">
+    <div class="text-center hidden" style="display: {showEmptyCart}">
       <p>Your cart is empty.</p>
     </div>
   {:else}
@@ -125,7 +134,7 @@
       <button
         class="color-order-button shadow-xl hover:shadow-md text-black font-semibold text-base py-2 px-6 rounded transition duration-100 ease-in-out"
       >
-        Proceed To Checkout
+        Place your  order
       </button>
     </div>
     <div class="color-price text-left flex-1 px-6 text-xl font-semibold">Order total: ₱{computeTotal(hydratedLineItems)}</div>

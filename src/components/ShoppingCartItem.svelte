@@ -2,8 +2,9 @@
   export let lineItem
 
   import { shoppingCartStore, parseLineItem } from "../stores/ShoppingCartStore"
-  import { productStore } from "../stores/ProductStore";
-  
+  import { productStore } from "../stores/ProductStore"
+  import { saveCartOnServer } from '../lib/acrossStores'
+
   let [lineKey, productId, optionIds, quantity, price] = parseLineItem(lineItem)
   let product = {...$productStore[productId][0]}
   
@@ -36,13 +37,14 @@
   
   let optionText = getOptionText(productId, optionIds)
 
-  const incrementQuantity = () => {
+  const incrementQuantity = async () => {
     quantity += 1
     $shoppingCartStore.data[getIndex()][1] += 1
     $shoppingCartStore.updatedAt = Date.now()
     $shoppingCartStore = $shoppingCartStore
+    await saveCartOnServer()
   }
-  const decrementQuantity = () => {
+  const decrementQuantity = async () => {
     quantity -= 1
     $shoppingCartStore.data[getIndex()][1] -= 1
     $shoppingCartStore.updatedAt = Date.now()
@@ -50,6 +52,7 @@
       shoppingCartStore.deleteItem(lineKey)
     }
     $shoppingCartStore = $shoppingCartStore
+    await saveCartOnServer()
   }
 </script>
 <li class="flex py-6 items-center">
@@ -128,7 +131,10 @@
         </div>
       </div>
       <div>
-        <button on:click={ () => shoppingCartStore.deleteItem(lineKey) }>
+        <button on:click={ async () => {
+          shoppingCartStore.deleteItem(lineKey)
+          await saveCartOnServer()
+        }}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

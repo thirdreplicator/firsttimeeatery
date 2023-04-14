@@ -8,6 +8,7 @@
   import { productStore } from "../stores/ProductStore";
 
   import { shoppingCartStore, computePrice } from "../stores/ShoppingCartStore"
+  import { saveCartOnServer } from "../lib/acrossStores";
   import { current_category } from "../stores/CategoryStore";
   
   const current_product = $productStore[id][0]
@@ -27,6 +28,7 @@
     const optionIds = selectedOption ? [selectedOption.id] : []
     shoppingCartStore.increment(id, optionIds, computedPrice)
     animateImageToSchoppingCart()
+    saveCartOnServer()
   }
 
   const transitionMs = 300
