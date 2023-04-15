@@ -7,7 +7,7 @@
   import { productStore } from "../stores/ProductStore";
   import CheckoutLineItem from './CheckoutLineItem.svelte';
   import { shoppingCartStore, parseLineItem } from '../stores/ShoppingCartStore.js';
-  import { getPrimaryDeliveryAddress } from '../lib/deliveryAddressUtils.js'
+  import { selectPrimaryDeliveryAddress } from '../lib/deliveryAddressUtils.js'
     import DeliveryAddress from './DeliveryAddress.svelte';
   
   const products = productStore.get()
@@ -77,7 +77,7 @@
     // Fetch delivery address from /delivery_addresses
     if (user && user.token) {
       try {
-        const response = await fetch('/delivery_addresses', {
+        const response = await fetch('/api/delivery_addresses', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -90,7 +90,7 @@
         }
 
         deliveryAddresses = await response.json();
-        primaryAddress = getPrimaryDeliveryAddress(deliveryAddresses)
+        primaryAddress = selectPrimaryDeliveryAddress(deliveryAddresses)
         console.log('delivery_addresses', primaryAddress)
  
       } catch (err) {

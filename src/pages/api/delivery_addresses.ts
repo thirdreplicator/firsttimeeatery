@@ -18,7 +18,7 @@ export const get: APIRoute = async ({ request }: { request: ServerRequest }) => 
   }
 
   // Forward the request with the token to the Express server
-  let response = await fetch('http://localhost:4000/delivery_addresses', {
+  let response = await fetch('http://localhost:4000/api/delivery_addresses', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

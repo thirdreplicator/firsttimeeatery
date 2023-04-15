@@ -1,4 +1,4 @@
-export const getPrimaryDeliveryAddress = (allAddresses) => {
+export const selectPrimaryDeliveryAddress = (allAddresses) => {
   let primaryAddress
   if (allAddresses.length == 1) {
     return allAddresses[0]
