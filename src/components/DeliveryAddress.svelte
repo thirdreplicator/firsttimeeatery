@@ -7,11 +7,12 @@
 </script>
 
 <div>
-  <div class='flex'>
+  <div class='flex flex-wrap'>
     <div class='font-medium pr-6'>Contact: </div>
-    <div>
-      {address.recipient}, <span class='text-red-800 font-bold'>{address.phone}</span>
+    <div class=''>
+      {address.recipient}, &nbsp;
     </div>
+    <div class='text-red-800 font-bold'>{address.phone}</div>
   </div>
 
   <div class='mt-4'>
@@ -25,7 +26,7 @@
   </div>
   
   <div class='hidden' style='display: { showSpecialInstructions }'>
-    <div class='mt-4 flex'>
+    <div class='mt-4 flex flex-wrap'>
       <div class='pr-6 font-medium'>Special instructions: </div>
       <div class='flex-auto'>{address.special_instructions}</div>
     </div>
