@@ -40,10 +40,10 @@
       showEmptyCart = 'block'
     }
 
-    // Fetch cart from /cart
+    // Fetch cart from /api/cart
     if (user && user.token) {
       try {
-        const response = await fetch('/cart', {
+        const response = await fetch('/api/cart', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

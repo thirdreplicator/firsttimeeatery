@@ -108,7 +108,7 @@ export const saveCart = async (cartContents, authToken) => {
     };
 
     // Make the fetch request to update the cart
-    const response = await fetch("/cart", requestOptions);
+    const response = await fetch("/api/cart", requestOptions);
 
     // Check if the response is successful
     if (!response.ok) {
@@ -141,7 +141,7 @@ export const loadCart = async (authToken) => {
     };
 
     // Make the fetch request to get the cart
-    const response = await fetch("/cart", requestOptions);
+    const response = await fetch("/api/cart", requestOptions);
 
     // Check if the response is successful
     if (!response.ok) {

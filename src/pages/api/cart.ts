@@ -18,7 +18,7 @@ export const get: APIRoute = async ({ request }: { request: ServerRequest }) => 
   }
 
   // Forward the request with the token to the Express server
-  let response = await fetch('http://localhost:4000/cart', {
+  let response = await fetch('http://localhost:4000/api/cart', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ export const post: APIRoute = async ({ request }: { request: ServerRequest }) =>
   const requestBody = await request.text();
 
   // Forward the request with the token to the Express server
-  let response = await fetch('http://localhost:4000/cart', {
+  let response = await fetch('http://localhost:4000/api/cart', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
