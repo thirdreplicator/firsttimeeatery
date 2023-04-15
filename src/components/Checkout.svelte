@@ -7,7 +7,9 @@
   import { productStore } from "../stores/ProductStore";
   import CheckoutLineItem from './CheckoutLineItem.svelte';
   import { shoppingCartStore, parseLineItem } from '../stores/ShoppingCartStore.js';
-
+  import { getPrimaryDeliveryAddress } from '../lib/deliveryAddressUtils.js'
+    import DeliveryAddress from './DeliveryAddress.svelte';
+  
   const products = productStore.get()
   const productsById = Object.keys(products).reduce((accumulator, productId) => {
      return { ...accumulator, [productId]: products[productId][0] }
@@ -26,6 +28,9 @@
     return optionText
   }
   
+  let deliveryAddresses
+  let primaryAddress
+  let showDeliveryAddress = 'none'
   let hydratedLineItems
   let error = null;
 
@@ -34,6 +39,8 @@
     if (0 == shoppingCartStore.totalQuantity()) {
       showEmptyCart = 'block'
     }
+
+    // Fetch cart from /cart
     if (user && user.token) {
       try {
         const response = await fetch('/cart', {
@@ -66,11 +73,37 @@
         error = err.message;
       }
     }
+
+    // Fetch delivery address from /delivery_addresses
+    if (user && user.token) {
+      try {
+        const response = await fetch('/delivery_addresses', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${user.token}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(await response.text());
+        }
+
+        deliveryAddresses = await response.json();
+        primaryAddress = getPrimaryDeliveryAddress(deliveryAddresses)
+        console.log('delivery_addresses', primaryAddress)
+ 
+      } catch (err) {
+        error = err.message;
+      }
+    }
   });
 
   let computeTotal = (lineItems) => {
     return lineItems.reduce((sum, lineItem) => sum + lineItem.quantity*lineItem.price, 0)
   }
+
+  const changeAddress = () => alert("Add an address")
   
 </script>
 <h1 class="text-center text-3xl">Checkout
@@ -96,8 +129,14 @@
       <div class='flex py-3'>
         <div class='font-semibold text-lg text-left w-5 py-3'>1</div>
         <h2 class="col-span-1 text-left font-semibold text-lg pr-10 py-3">Delivery Address</h2>
-        <div class="col-span-3 text-left font-light text-base py-3 flex-1">Your address details</div>
-        <div class="action col-span-1 text-center text-base px-3 py-3"><a>Change</a></div>
+        <div class="col-span-3 text-left font-light text-base py-3 flex-1">
+          {#if deliveryAddresses && deliveryAddresses.length > 0 }
+            <DeliveryAddress address={ primaryAddress } />
+          {:else }
+            No addresses found. Click "Change" to add a delivery location.
+          {/if}
+        </div>
+        <div class="action col-span-1 text-center text-base px-3 py-3"><a on:click={ changeAddress }>Change</a></div>
       </div>
       <div class='flex py-3'>
         <div class='font-semibold text-lg text-left w-5 py-3'>2</div>
@@ -134,7 +173,7 @@
       <button
         class="color-order-button shadow-xl hover:shadow-md text-black font-semibold text-base py-2 px-6 rounded transition duration-100 ease-in-out"
       >
-        Place your  order
+        Place your order
       </button>
     </div>
     <div class="color-price text-left flex-1 px-6 text-xl font-semibold">Order total: ₱{computeTotal(hydratedLineItems)}</div>
