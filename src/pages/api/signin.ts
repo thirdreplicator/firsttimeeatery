@@ -6,7 +6,7 @@ export const post: APIRoute = async ({ request }) => {
   const body = await request.json()
 
   let json = JSON.stringify(body)
-  let response = await fetch("http://localhost:4000/signin", {
+  let response = await fetch("http://localhost:4000/api/signin", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

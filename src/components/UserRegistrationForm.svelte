@@ -23,7 +23,7 @@
     delete formObj.password_confirmation
     const formDataStringified = JSON.stringify(formObj)
 
-    const response = await fetch("/register", {
+    const response = await fetch("/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

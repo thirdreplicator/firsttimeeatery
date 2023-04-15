@@ -32,7 +32,7 @@
       console.log(formDataStringified)
 
 
-      const response = await fetch("/signin", {
+      const response = await fetch("/api/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: formDataStringified,

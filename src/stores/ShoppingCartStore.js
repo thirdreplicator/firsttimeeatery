@@ -90,9 +90,6 @@ export const saveCart = async (cartContents, authToken) => {
     if (typeof cartContents !== "string") {
       throw new Error("Invalid cartContents format. It must be a string.");
     }
-    if ( JSON.parse(cartContents).data.length == 0) {
-      throw new Error("Invalid cartContents. The cart cannot be empty before trying to save it.");
-    }
 
     // Set up the request headers
     const headers = new Headers({
@@ -119,7 +116,7 @@ export const saveCart = async (cartContents, authToken) => {
     const jsonResponse = await response.json();
     return jsonResponse;
   } catch (error) {
-    console.error(`Error: ${error.message}`);
+    console.error(`Save Error: ${error.message}`);
     return null;
   }
 }
@@ -152,13 +149,19 @@ export const loadCart = async (authToken) => {
     const jsonResponse = await response.json();
     return jsonResponse;
   } catch (error) {
-    console.error(`Error: ${error.message}`);
+    console.error(`Load Error: ${error.message}`);
     return null;
   }
 }
 
 if (isLoggedIn(currentUser.get())) {
   let cart = await loadCart(currentUser.get().token)
-  if (!isValidCart(cart)) { throw('Invalid cart loaded from loadCart') }
+  if (!isValidCart(cart)) { 
+    console.log('invalid cart so initializing new empty cart', cart)
+    shoppingCartStore.set({
+      data: [],
+      updatedAt: 0
+    })
+  }
   shoppingCartStore.set(cart)
 }
