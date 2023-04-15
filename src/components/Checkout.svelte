@@ -133,7 +133,7 @@
           {#if deliveryAddresses && deliveryAddresses.length > 0 }
             <DeliveryAddress address={ primaryAddress } />
           {:else }
-            No addresses found. Click "Change" to add a delivery location.
+            No addresses found associated with this account.
           {/if}
         </div>
         <div class="action col-span-1 text-center text-base px-3 py-3"><a on:click={ changeAddress }>Change</a></div>

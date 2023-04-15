@@ -14,6 +14,10 @@
 
   onMount(() => {
     const targetEl = document.getElementById('shopping-cart-drawer')
+
+    const info = targetEl.getBoundingClientRect()
+    console.log('info', info)
+
     const shoppinCartButton = document.getElementById('shopping-cart-button')
     const shoppingCartHideButton = document.getElementById('shopping-cart-hide-button')
     const backToMenuLink = document.getElementById('back-to-menu-link')
@@ -53,7 +57,11 @@
       drawer.show()
     })
     backToMenuLink.addEventListener("click", () => {
-      drawer.hide()
+      if ('/menu' == window.location.pathname) {
+        drawer.hide()
+      } else {
+        window.location = '/menu'
+      }      
     })
     shoppingCartHideButton.addEventListener("click", () => {
       drawer.hide()
