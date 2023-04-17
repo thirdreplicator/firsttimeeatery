@@ -1,12 +1,16 @@
 <script>
   export let address
+  let show = 'none'
   let showSpecialInstructions = 'none'
-  if (address.special_instructions) {
+  if (address) {
+    show = 'block'
+  }
+  if (address && address.special_instructions) {
     showSpecialInstructions = 'block'
   }
 </script>
-
-<div>
+{#if address }
+<div class='hidden' style='display: {show}'>
   <div class='flex flex-wrap'>
     <div class='font-medium pr-6'>Contact: </div>
     <div class=''>
@@ -22,7 +26,10 @@
     {address.city}, {address.barangay}
   </div>
   <div>
-    {address.province} {address.zip}
+    {address.province}
+    {#if address.zip }
+      {address.zip}
+    {/if}
   </div>
   
   <div class='hidden' style='display: { showSpecialInstructions }'>
@@ -33,10 +40,4 @@
   </div>
 
 </div>
-
-<!--
-  
-INSERT INTO delivery_addresses (user_id, recipient,  phone, street, city, province, barangay, zip, special_instructions)
-VALUES (108, 'David Beckwith', '+63-912-345-6789', 'Palm Street', 'Dumaguete City', 'Negros Oriental', 'Daro', '6200', 'Please call when you reach Palm St.');
-
--->
+{/if}
