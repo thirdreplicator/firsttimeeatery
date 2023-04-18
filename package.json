@@ -3,8 +3,8 @@
 	"type": "module",
 	"version": "0.0.1",
 	"scripts": {
-		"start:dev": "dotenv -e .env.development  -- astro dev",
-		"start:production": "dotenv -e .env.production -- node dist/server/entry.mjs",
+		"web:dev": "dotenv -e .env.development  -- astro dev",
+		"web:prod": "dotenv -e .env.production -- node dist/server/entry.mjs",
 		"build": "astro build && ./after-build.sh",
 		"preview": "astro preview",
 		"astro": "astro"
