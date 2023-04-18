@@ -48,6 +48,9 @@
     alertLevel = "success"
     responseMessage = `Successfully registered!`
     scrollTo('user-registration-success')
+    setTimeout(() => {
+      window.location = '/menu'
+    }, 2000)
   }
 
   const displayWarningMessage = (message) => {

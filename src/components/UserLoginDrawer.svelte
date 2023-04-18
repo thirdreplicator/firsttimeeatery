@@ -7,6 +7,7 @@
   let showLoginButton = 'none'
   let showWelcomeUser = 'none'
   let showLoginError = false
+  let loginErrorMessage
 
   currentUser.subscribe(user => {
     if (isLoggedIn(user)) {
@@ -44,6 +45,7 @@
         $currentUser = data.loginInfo
         window.location = '/menu'
       } else {
+        console.log('1')
         showLoginError = true
         loginErrorMessage = data.message
       }
@@ -87,15 +89,12 @@
       drawer.hide()
     })
 
-    $: {  
-      if (showLoginError) {
-        setTimeout(() => {
-          document.getElementById('user-login-error-hide-button').addEventListener('click', () => { showLoginError = false })
-        }, 500)
-      }
-    }
-
 })
+
+const hideMe = (e) => {
+  showLoginError = false
+}
+
 </script>
 
 <div class="text-center hidden" style="display: { showLoginButton }">
@@ -222,6 +221,7 @@
                     class="max-w-xs bg-white border rounded-md shadow-lg dark:bg-gray-800 dark:border-gray-700"
                     role="alert"
                     in:fade out:scale
+                    on:click={ hideMe }
                     >
                     <div id='user-login-error-hide-button' class="flex p-4">
                       <div class="flex-shrink-0">

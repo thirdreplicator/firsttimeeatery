@@ -162,6 +162,7 @@ if (isLoggedIn(currentUser.get())) {
       data: [],
       updatedAt: 0
     })
+  } else {
+    shoppingCartStore.set(cart)
   }
-  shoppingCartStore.set(cart)
 }
